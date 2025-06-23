@@ -401,7 +401,9 @@ const VideoCallScreen = ({navigation, route}: any) => {
         });
       }
       await audioMute();
-    
+     setIsMute((val: boolean) => {
+        return !val;
+      });
     } catch (error) {
       console.log('Error while calling muteHandler', error);
     }
