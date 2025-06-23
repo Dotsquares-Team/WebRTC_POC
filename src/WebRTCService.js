@@ -8,9 +8,7 @@ import {
   MediaStream,
 } from 'react-native-webrtc';
 import {NativeModules} from 'react-native';
-const TURN_SERVER = "turn:16.170.254.248:8547"
-const TURN_SERVER_USER_NAME = "turnuser"
-const TURN_SERVER_PASSWORD = "Dots@123" 
+const STUN_SERVER = "stun:stun.l.google.com:19302"
 class WebRTCService {
   constructor() {
     this.peerConnection = null;
@@ -18,14 +16,10 @@ class WebRTCService {
     this.remoteStream = new MediaStream();
     this.configuration = {
       iceServers: [
-        // {
-        //   urls: STUN_SERVER,
-        // },
         {
-          urls: TURN_SERVER,
-          username: TURN_SERVER_USER_NAME,
-          credential: TURN_SERVER_PASSWORD,
+          urls: STUN_SERVER,
         },
+        
       ],
     };
   }

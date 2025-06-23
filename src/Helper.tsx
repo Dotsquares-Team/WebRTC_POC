@@ -25,6 +25,7 @@ export async function startInCallManage() {
     InCallManager.start({media: 'video', auto: true}); // or _DEFAULT_ or _DTMF_
     InCallManager.setSpeakerphoneOn(true);
     InCallManager.setMicrophoneMute(false);
+    InCallManager.setForceSpeakerphoneOn(true)
     return await pauseProcessing(1);
   } catch (error) {
     throw error;

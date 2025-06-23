@@ -11,15 +11,10 @@ import JoinCall from "./JoinCall";
 
 const Route =()=>{
     const isLogIn = useSelector((state:RootState) => state.userReducer.isUserLogIn)
-    return (
-        <>
-        {
-            isLogIn?<SocketProvider>
+    return  isLogIn?<SocketProvider>
                  <VideoCallScreen/>
             </SocketProvider> : <JoinCall/>
-        }
-        </>
-    )
+    
 }
 
 export default Route
