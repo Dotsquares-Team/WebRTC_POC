@@ -41,7 +41,7 @@ let socket: any = null;
 export const getAuthTokenSocket = () => {
   const user = store.getState().userReducer.userDetails;
   if (!socket) {
-    console.log('SOCKETURL', SOCKETURLNEW);
+    console.log('SOCKETURL', SOCKETURLNEW,user?.token);
     socket = io(`${SOCKETURLNEW}`, {
       // transports: ['websocket'],
       extraHeaders: {

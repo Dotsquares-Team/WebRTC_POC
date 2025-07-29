@@ -110,7 +110,6 @@ const VideoCallScreen = ({navigation, route}: any) => {
     webRTCService.peerConnection?.addEventListener(
       LISTNERS.ICECANDIDATE,
       (event: any) => {
-        console.log('CANDIDATES DATA HERE', event);
         if (!event.candidate) {
           return;
         }
@@ -149,7 +148,7 @@ const VideoCallScreen = ({navigation, route}: any) => {
   useEffect(() => {
     setTimeout(async () => {
       try {
-        await startInCallManage();
+        
         await startCall();
         // await requestMicrophonePermission();
       } catch (error) {
@@ -177,18 +176,15 @@ const VideoCallScreen = ({navigation, route}: any) => {
   };
   const connectionCallback = async () => {
     let connectionType = webRTCService?.peerConnection?.connectionState;
-    console.log(
-      Platform.OS,
-      'Connection status',
-      connectionType,
-    );
     try {
       if (connectionType == 'connecting') {
         // requestMicrophonePermission()
       }
       if (connectionType === 'connected') {
         let connectionTimer: any;
-       
+    //  const r = await webRTCService.peerConnection?.getStats();
+    //  console.log("--------------->" , r)
+       await startInCallManage();
         await pauseProcessing();
         setIsConnect(true);
         setIsLoading(false);
@@ -214,7 +210,6 @@ const VideoCallScreen = ({navigation, route}: any) => {
     }
   };
   const offerHandler = async (data: any) => {
-    console.log(Platform.OS, '=========>offerHandler', JSON.stringify(data));
     isUserEnableRecording.current = data?.enable_recording ?? false;
     try {
       callerId.current = data?.callId;
@@ -237,7 +232,6 @@ const VideoCallScreen = ({navigation, route}: any) => {
   const userMatchHandler = async (data: any) => {
     try {
       isUserEnableRecording.current = data?.enable_recording ?? false;
-      console.log(Platform.OS, 'MATCHED HERE', JSON.stringify(data));
       callerId.current = data?.callId;
       const offer = await createOffer();
       forwardOffer(offer, data?.callId);
@@ -251,9 +245,7 @@ const VideoCallScreen = ({navigation, route}: any) => {
   };
   const startCall = async () => {
     try {
-      console.log(
-        'startCall>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
-      );
+     
       const connection = createConnection();
       const userMedia = await getUserMedia();
       localStream.current = userMedia;
@@ -279,7 +271,6 @@ const VideoCallScreen = ({navigation, route}: any) => {
 
 
   const requestMicrophonePermission = async () => {
-    console.log('requestMicrophonePermission>>>>>>>>');
     if (Platform.OS == 'ios') {
       try {
         const result = await AudioSessionManager.requestMicrophonePermission();
@@ -295,7 +286,6 @@ const VideoCallScreen = ({navigation, route}: any) => {
 
 
   const getUserMedia = async () => {
-    console.log('🚀 ~ getUserMedia ~ getUserMedia:');
     try {
       return webRTCService.getLocalStream();
     } catch (error) {
@@ -311,7 +301,6 @@ const VideoCallScreen = ({navigation, route}: any) => {
     }
   };
   const addMediaTracks = () => {
-    console.log('🚀 ~ addMediaTracks ~ addMediaTracks:');
     try {
       return webRTCService.addLocalStreamToConnection();
     } catch (error) {
@@ -456,10 +445,6 @@ const VideoCallScreen = ({navigation, route}: any) => {
 
   // SMALL CAMERA DESIGN
   const smallCameraComponent = useMemo(() => {
-    console.log(
-      '🚀 ~ smallCameraComponent ~ getSwapView(CAMERASWAP.FRONT):',
-      getSwapView(CAMERASWAP.FRONT),webRTCService.localStream?.toURL()
-    );
     return (
       <View style={styles.smallCameraContent}>
         <TouchableOpacity
@@ -565,7 +550,6 @@ const VideoCallScreen = ({navigation, route}: any) => {
     webRTCViewRef.current,
   ]);
 
-  console.log(" webRTCService.localStream" ,  webRTCService.localStream?.toURL())
 
   // MAIN RETURN
   return (
